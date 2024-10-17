@@ -1,0 +1,91 @@
+*{
+    scroll-behavior: smooth;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+}
+:root{
+    --bg-color: #1a1a1a; /* Initial background color */
+    --fg-color: #fff; /* Initial foreground color */
+    --light-bg-color: #fff;
+    --light-fg-color: #1a1a1a;
+    --dark-bg-color: #1a1a1a;
+    --dark-fg-color: #fff;
+    --lines-opacity: 0.3;
+    --purple: #772df7;
+    --pink: #f15d85;
+    --orange: #f79926;
+    --green: #65c06f;
+    --blue: #6f92e2;
+    --name-gradient: linear-gradient(45deg, var(--blue) 30%, var(--pink), var(--purple) 80%);
+    --acc-gradient: linear-gradient(45deg, var(--orange) 30%, var(--pink), var(--purple) 70%);
+    --acc-gradient-anim: text-shine 10s infinite ease-in-out;
+}
+@keyframes text-shine{
+    0%, 100%{background-position: 0% 50%;}
+    50%{background-position: 100% 50%;}
+}
+section{
+    height: 100dvh;
+    color: var(--fg-color);
+}
+.body-container{
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    transition: all 1s ease-in-out;
+}
+.lines .left{
+    left: 2%;
+    background: var(--acc-gradient);
+    animation: var(--acc-gradient-anim);
+    background-size: 1000%;
+}
+.lines .right{
+    right: 2%;
+    background: var(--acc-gradient);
+    animation: var(--acc-gradient-anim);
+    background-size: 1000%;
+}
+.lines div{
+    position: fixed;
+    top: 20dvh;
+    bottom: 20dvh;
+    width: 3px;
+    opacity: var(--lines-opacity);
+    transition: all 0.5s ease-in-out;
+}
+.navbar a, .navbar #change-icon{
+    text-decoration: none;
+    color: var(--fg-color);
+    font-size: 170%;
+    font-weight: 550;
+    margin-left: 2rem;
+    transition: 0.3s;
+}
+#change-icon{
+    cursor: pointer;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 100px;
+    background: #ffffff1a;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+.Name{
+    background: var(--name-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-size: 250%;
+    -webkit-text-fill-color: transparent;
+    animation: var(--acc-gradient-anim);
+    font-size: 225%;
+    font-weight: 500;
+}
