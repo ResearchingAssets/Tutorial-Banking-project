@@ -89,3 +89,6 @@ section{
     font-size: 225%;
     font-weight: 500;
 }
+.Hello{
+    transition: opacity 0.5s ease-in-out;
+  }
