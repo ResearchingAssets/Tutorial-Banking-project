@@ -91,9 +91,10 @@ section{
     font-size: 225%;
     font-weight: 500;
 }
-.Hello{
+.about, .login-container{
     transition: opacity 0.5s ease-in-out;
   }
+
   .login-container{
     display: flex;
     justify-content: center;
@@ -163,7 +164,7 @@ section{
     font-size: 18px;
   }
 
-  .about{
+  .about, .news{
     flex-direction: column;
     display: flex;
     justify-content: center;
@@ -176,7 +177,7 @@ section{
     font-size: 400%;
     transition: none;
   }
-  .colored-name{
+  .colored-name, .update-title{
     background: var(--acc-gradient);
     background-size: 250%;
     background-clip: text;
@@ -186,9 +187,13 @@ section{
 }
 .myself{
     font-size: 20px;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 ::-webkit-scrollbar{
     display: none;
+}
+.update-title{
+    font-size: 200%;
+    transition: none;
 }
