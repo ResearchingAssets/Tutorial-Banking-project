@@ -19,3 +19,20 @@ function modeChange() {
       icon.textContent = '💡';
     }
   }
+
+  const aboutLink = document.querySelectorAll(".about-link");
+
+  aboutLink.forEach(link => {
+    link.addEventListener("click", function(event) {
+      // Prevent the default link behavior
+      event.preventDefault();
+  
+      // Get the element with the class of "about"
+      const aboutSection = document.querySelector(".about");
+  
+      // Scroll to the socials section
+      aboutSection.scrollIntoView({
+        behavior: "smooth"
+      });
+    });
+  });
