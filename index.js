@@ -21,6 +21,7 @@ function modeChange() {
   }
 
   const aboutLink = document.querySelectorAll(".about-link");
+  const newsLink = document.querySelectorAll(".news-link")
 
   aboutLink.forEach(link => {
     link.addEventListener("click", function(event) {
@@ -36,3 +37,38 @@ function modeChange() {
       });
     });
   });
+
+  newsLink.forEach(link => {
+    link.addEventListener("click", function(event) {
+      // Prevent the default link behavior
+      event.preventDefault();
+  
+      // Get the element with the class of "about"
+      const newsSection = document.querySelector(".news");
+  
+      // Scroll to the socials section
+      newsSection.scrollIntoView({
+        behavior: "smooth"
+      });
+    });
+  });
+
+
+  const FirstElement = document.querySelector('.login-container');
+  const SecondElement = document.querySelector('.about');
+  
+  window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY;
+
+      if (scrollPosition > 475) {
+        FirstElement.style.opacity = '0';
+      } else {
+        FirstElement.style.opacity = '1';
+      }
+  
+      if (scrollPosition < 500 | scrollPosition > 900) {
+        SecondElement.style.opacity = '0';
+      } else {
+        SecondElement.style.opacity = '1';
+      }
+    });
