@@ -22,6 +22,7 @@ function modeChange() {
 
   const aboutLink = document.querySelectorAll(".about-link");
   const newsLink = document.querySelectorAll(".news-link")
+  const ContactUsLink = document.querySelectorAll(".contact-us-link")
 
   aboutLink.forEach(link => {
     link.addEventListener("click", function(event) {
@@ -53,6 +54,21 @@ function modeChange() {
     });
   });
 
+  ContactUsLink.forEach(link => {
+    link.addEventListener("click", function(event) {
+      // Prevent the default link behavior
+      event.preventDefault();
+  
+      // Get the element with the class of "about"
+      const ContactSection = document.querySelector(".contact-us");
+  
+      // Scroll to the socials section
+      ContactSection.scrollIntoView({
+        behavior: "smooth"
+      });
+    });
+  });
+
 
   const FirstElement = document.querySelector('.login-container');
   const SecondElement = document.querySelector('.about');
@@ -66,7 +82,7 @@ function modeChange() {
         FirstElement.style.opacity = '1';
       }
   
-      if (scrollPosition < 500 | scrollPosition > 900) {
+      if (scrollPosition < 450 | scrollPosition > 1000) {
         SecondElement.style.opacity = '0';
       } else {
         SecondElement.style.opacity = '1';
