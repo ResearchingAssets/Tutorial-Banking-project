@@ -23,6 +23,7 @@
         <header class="header">
             <a href="#" class="Name">PocketBank</a>
             <nav class="navbar">
+                <a href="#" class="sign-up-link">Sign up</a>
                 <a href="#" class="about-link">About</a>
                 <a href="#" class="news-link">News</a>
                 <a href="#" class="contact-us-link">Contact us</a>
@@ -32,14 +33,23 @@
             </nav>
         </header>
         <section class="login-container">
-                <form class="login" action="BankingAfter.html" method="post">
+                <form class="login">
                     <h2>Welcome, user!</h2>
                     <p>Please log in.</p>
                     <input type="text" placeholder="User Name" name="username" required/>
                     <input type="password" placeholder="Password" name = "password" required/>
-                    <input type="Submit" value="Submit"/>
+                    <input type="submit" value="Login"/>
                 </form>
         </section>
+        <section class="sign-up-container">
+            <form class="sign-up">
+                <h2>Welcome, user!</h2>
+                <p>Please sign up.</p>
+                <input type="text" placeholder="User Name" name="username" required/>
+                <input type="password" id="pass" placeholder="Password" name = "password" required/>
+                <input type="submit" value="Sign up" onclick=""/>
+            </form>
+    </section>
         <section class="about">
                     <h1 class="name">
                         Hey, we are
