@@ -14,7 +14,7 @@
        exit(); 
     } 
   
-    $sql = "select * from login"; 
+    $sql = "select * from banking"; 
     $result = ($conn->query($sql)); 
     //declare array to store the data of database 
     $row = [];  
@@ -54,8 +54,8 @@
             ?> 
             <tr> 
   
-                <td><?php echo $rows['userid']; ?></td> 
-                <td><?php echo $rows['password']; ?></td> 
+                <td><?php echo $rows['Username']; ?></td> 
+                <td><?php echo $rows['Password']; ?></td> 
                
   
             </tr> 
