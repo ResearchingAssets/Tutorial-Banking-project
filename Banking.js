@@ -23,6 +23,22 @@ function modeChange() {
   const aboutLink = document.querySelectorAll(".about-link");
   const newsLink = document.querySelectorAll(".news-link")
   const ContactUsLink = document.querySelectorAll(".contact-us-link")
+  const SignUpLink = document.querySelectorAll(".sign-up-link")
+
+  SignUpLink.forEach(link => {
+    link.addEventListener("click", function(event) {
+      // Prevent the default link behavior
+      event.preventDefault();
+  
+      // Get the element with the class of "about"
+      const SignUpSection = document.querySelector(".sign-up-container");
+  
+      // Scroll to the socials section
+      SignUpSection.scrollIntoView({
+        behavior: "smooth"
+      });
+    });
+  });
 
   aboutLink.forEach(link => {
     link.addEventListener("click", function(event) {
@@ -71,7 +87,7 @@ function modeChange() {
 
 
   const FirstElement = document.querySelector('.login-container');
-  const SecondElement = document.querySelector('.about');
+  const SecondElement = document.querySelector('.sign-up-container');
   
   window.addEventListener('scroll', () => {
       const scrollPosition = window.scrollY;
