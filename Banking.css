@@ -91,12 +91,13 @@ section{
   font-size: 225%;
   font-weight: 500;
 }
-.about, .login-container, .news{
+.about, .login-container, .news, .sign-up-container{
   transition: opacity 0.5s ease-in-out;
 }
 
-.login-container{
+.login-container, .sign-up-container{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   
@@ -112,7 +113,19 @@ section{
   transform: translateX(5px);
   transform: translateY(50px);
 }
-.login input {
+
+.sign-up{
+  margin: 20px auto;
+  padding: 40px 50px;
+  width: 340px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 20px 20px 20px #00b3ff86;
+  height: 400px;
+  transform: translateX(5px);
+  transform: translateY(50px);
+}
+.login input, .sign-up input{
   width: 100%;
   display: block;
   box-sizing: border-box;
@@ -121,23 +134,23 @@ section{
   font-size: 16px;
   border-radius: 2px; 
 }
-.login input[type=text], .login input[type=password] {
+.login input[type=text], .login input[type=password] , .sign-up input[type=text], .sign-up input[type=password]{
 border: 1px solid #c0c0c0;
 transition: .2s;
 }
-.login input[type=text]:hover {
+.login input[type=text]:hover, .sign-up input[type=text]:hover {
   border-color: #00cff4;
   outline: none;
   transition: all .2s ease-in-out;
 } 
 
-.login input[type=password]:hover{
+.login input[type=password]:hover, .sign-up input[type=password]:hover{
   border-color: #00cff4;
   outline: none;
   transition: all .2s ease-in-out;
 }
 
-.login input[type=submit] {
+.login input[type=submit], .sign-up input[type=submit]{
   border: none;
   background: #EF5350;
   color: white;
@@ -146,19 +159,19 @@ transition: .2s;
   margin: 20px 0px;
 }
 
-.login input[type=submit]:hover {
+.login input[type=submit]:hover, .sign-up input[type=submit]:hover {
   background: #dd04fe;  
 }
-.login h2{
+.login h2, .sign-up h2{
   margin: 20px 0 0; 
   color: #ee1fbe;
   font-size: 28px;
 }
 
-.login h2, .login p {
+.login h2, .login p , .sign-up h2, .sign-up p{
   text-align: center;    
 }
-.login p{
+.login p, .sign-up p{
   margin: 20px;
   color: black;
   font-size: 18px;
@@ -173,6 +186,8 @@ transition: .2s;
   height: 100dvh;
   text-align: center;
 }
+
+
 .about .name{
   font-size: 400%;
   transition: none;
