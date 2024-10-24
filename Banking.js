@@ -104,3 +104,4 @@ function modeChange() {
         SecondElement.style.opacity = '1';
       }
     });
+    
