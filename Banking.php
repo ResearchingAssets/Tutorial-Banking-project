@@ -54,39 +54,41 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Check if the login form was submitted
-    if (isset($_POST['login-submit'])) {
-        $username = $_POST['username-confirm'];
-        $password = $_POST['password-confirm'];
+    session_start();  // Start the session
 
-        // Prepare SQL statement to search for the username and password in the database
-        $stmt = $conn->prepare("SELECT * FROM banking WHERE Username = ? AND Password = ?");
-        $stmt->bind_param("ss", $username, $password);
+// Database connection and login logic
 
-        // Execute the query
-        $stmt->execute();
-        $result = $stmt->get_result();
+if (isset($_POST['login-submit'])) {
+    $username = $_POST['username-confirm'];
+    $password = $_POST['password-confirm'];
 
-        // Check if any matching records exist
-        if ($result->num_rows > 0) {
-            // Username and password found
-            echo "<br><br><p>Login successful. You will be redirected in 5 seconds.</p>";
+    // Prepare SQL statement to search for the username and password in the database
+    $stmt = $conn->prepare("SELECT * FROM banking WHERE Username = ? AND Password = ?");
+    $stmt->bind_param("ss", $username, $password);
+
+    // Execute the query
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Store the username in a session variable
+        $_SESSION['loggedin_username'] = $username;
+
+        // Redirect to the success page
+        echo "<br><br><p>Login successful. You will be redirected in 5 seconds.</p>";
             echo "<script>
                 setTimeout(function(){
                     window.location.href = 'BankingLoginSuccess.php';
                 }, 5000);  // Wait 5 seconds before redirecting
                 </script>";
-        } else {
-            // No matching records found, set error message
-            echo '<br><br><p>Invalid username or password.</p>';
-        }
-
-        // Close the statement
-        $stmt->close();
+        exit();
+    } else {
+        echo '<br><br><p>Invalid username or password. Please sign up.</p>';
     }
 
-    // Close the connection
-    $conn->close();
+    $stmt->close();
+}
+$conn->close();
     ?>
 </section>
 
