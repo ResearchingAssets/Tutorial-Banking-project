@@ -94,52 +94,64 @@ $conn->close();
 
 
 <section class="sign-up-container">
-        <form class="sign-up" method="POST" action="">
-            <h2>Welcome, user!</h2>
-            <p>Please sign up.</p>
-            <input type="text" placeholder="User Name" name="username" required/>
-            <input type="password" id="pass" placeholder="Password" name="password" required/>
-            <input type="submit" value="Sign up" name="signup-submit"/>
-        </form>
+    <form class="sign-up" method="POST" action="">
+        <h2>Welcome, user!</h2>
+        <p>Please sign up.</p>
+        <input type="text" placeholder="User Name" name="username" required/>
+        <input type="password" id="pass" placeholder="Password" name="password" required/>
+        <input type="submit" value="Sign up" name="signup-submit"/>
+    </form>
 
-        <?php
-        // Database connection settings
-        $servername = "localhost";  // Server name (usually localhost for XAMPP)
-        $dbusername = "root";       // Default username for XAMPP
-        $dbpassword = "";           // Default password for XAMPP (empty)
-        $dbname = "bank";           // Database name
+    <?php
+    // Database connection settings
+    $servername = "localhost";  // Server name (usually localhost for XAMPP)
+    $dbusername = "root";       // Default username for XAMPP
+    $dbpassword = "";           // Default password for XAMPP (empty)
+    $dbname = "bank";           // Database name
 
-        // Create a connection
-        $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
+    // Create a connection
+    $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Check if the sign-up form was submitted
-        if (isset($_POST['signup-submit'])) {
-            $user = $_POST['username'];
-            $pass = $_POST['password'];
-
-            // Prepare SQL statement to prevent SQL injection
-            $stmt = $conn->prepare("INSERT INTO banking (Username, Password) VALUES (?, ?)");
-            $stmt->bind_param("ss", $user, $pass);
-
-            // Execute the statement
-            if ($stmt->execute()) {
-                echo "<script>
-                alert('Please login now');
-                </script>";
-            } else {
-                echo "Error." . $stmt->error;
-            } 
-
-        // Close the statement and connection
-        $stmt->close();
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    $conn->close();
+    // Check if the sign-up form was submitted
+    if (isset($_POST['signup-submit'])) {
+        $user = $_POST['username'];
+        $pass = $_POST['password'];
+
+        // Prepare SQL statement to insert into the 'banking' table (for user sign-up)
+        $stmt = $conn->prepare("INSERT INTO banking (Username, Password) VALUES (?, ?)");
+        $stmt->bind_param("ss", $user, $pass);
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            // If sign-up is successful, insert the username into the 'bankbalance' table
+            $stmt->close();
+
+            // Prepare another statement to insert the username into 'bankbalance', leaving balance empty
+            $balance_stmt = $conn->prepare("INSERT INTO bankbalance (Username, Balance) VALUES (?, 00.00)");
+            $balance_stmt->bind_param("s", $user);
+
+            // Execute the statement for 'bankbalance'
+            if ($balance_stmt->execute()) {
+                echo "<script>
+                alert('Sign-up successful. Please login now.');
+                </script>";
+            } else {
+                echo "Error inserting into bankbalance: " . $balance_stmt->error;
+            }
+
+            $balance_stmt->close();
+        } else {
+            echo "Error signing up: " . $stmt->error;
+        }
+
+        // Close the connection
+        $conn->close();
+    }
     ?>
 </section>
 
@@ -160,7 +172,8 @@ $conn->close();
                 <div class="content">
                     <h2>GMAIL</h2>
                     <p>info.soumit@gmail.com <br>
-                        tpspoojithap@gmail.com
+                        tpspoojithap@gmail.com <br>
+                        blyubarajkayal@gmail.com
                     </p>
                 </div>
             </div>
