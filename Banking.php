@@ -27,67 +27,71 @@
             <span id="change-icon" onclick="modeChange()">💡</span>
         </nav>
     </header>
-
     <section class="login-container">
-        <form class="login" action="" method="POST">
-            <h2>Welcome, user!</h2>
-            <p>Please log in.</p>
-            <input type="text" placeholder="User Name" name="username-confirm" required/>
-            <input type="password" placeholder="Password" name="password-confirm" required/>
-            <input type="submit" value="Submit" name="login-submit"/><br>
-        </form>
+    <form class="login" action="" method="POST">
+        <h2>Welcome, user!</h2>
+        <p>Please log in.</p>
+        <input type="text" placeholder="User Name" name="username-confirm" required/>
+        <input type="password" placeholder="Password" name="password-confirm" required/>
+        <input type="submit" value="Submit" name="login-submit"/><br>
+    </form>
 
-        <?php
-        // Initialize an error message variable
-        $error_message = "";
+    <?php
+    // Initialize an error message variable
+    $error_message = "";
 
-        // Database connection settings
-        $servername = "localhost";  // Server name (usually localhost for XAMPP)
-        $dbusername = "root";       // Default username for XAMPP
-        $dbpassword = "";           // Default password for XAMPP (empty)
-        $dbname = "bank";           // Database name
+    // Database connection settings
+    $servername = "localhost";  // Server name (usually localhost for XAMPP)
+    $dbusername = "root";       // Default username for XAMPP
+    $dbpassword = "";           // Default password for XAMPP (empty)
+    $dbname = "bank";           // Database name
 
-        // Create a connection
-        $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
+    // Create a connection
+    $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Check if the login form was submitted
+    if (isset($_POST['login-submit'])) {
+        $username = $_POST['username-confirm'];
+        $password = $_POST['password-confirm'];
+
+        // Prepare SQL statement to search for the username and password in the database
+        $stmt = $conn->prepare("SELECT * FROM banking WHERE Username = ? AND Password = ?");
+        $stmt->bind_param("ss", $username, $password);
+
+        // Execute the query
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Check if any matching records exist
+        if ($result->num_rows > 0) {
+            // Username and password found
+            echo "<br><br><p>Login successful. You will be redirected in 5 seconds.</p>";
+            echo "<script>
+                setTimeout(function(){
+                    window.location.href = 'BankingLoginSuccess.php';
+                }, 5000);  // Wait 5 seconds before redirecting
+                </script>";
+        } else {
+            // No matching records found, set error message
+            echo '<br><br><p>Invalid username or password.</p>';
         }
 
-        // Check if the login form was submitted
-        if (isset($_POST['login-submit'])) {
-            $username = $_POST['username-confirm'];
-            $password = $_POST['password-confirm'];
+        // Close the statement
+        $stmt->close();
+    }
 
-            // Prepare SQL statement to search for the username and password in the database
-            $stmt = $conn->prepare("SELECT * FROM banking WHERE Username = ? AND Password = ?");
-            $stmt->bind_param("ss", $username, $password);
+    // Close the connection
+    $conn->close();
+    ?>
+</section>
 
-            // Execute the query
-            $stmt->execute();
-            $result = $stmt->get_result();
 
-            // Check if any matching records exist
-            if ($result->num_rows > 0) {
-                // Username and password found
-                header("Location: BankingLoginSuccess.php");
-                exit();
-            } else {
-                // No matching records found, set error message
-                echo 'Invalid username or password.';
-            }
-
-            // Close the statement
-            $stmt->close();
-        }
-
-        // Close the connection
-        $conn->close();
-        ?>
-    </section>
-
-    <section class="sign-up-container">
+<section class="sign-up-container">
         <form class="sign-up" method="POST" action="">
             <h2>Welcome, user!</h2>
             <p>Please sign up.</p>
@@ -122,18 +126,20 @@
 
             // Execute the statement
             if ($stmt->execute()) {
-                echo "Please login now";
+                echo "<script>
+                alert('Please login now');
+                </script>";
             } else {
                 echo "Error." . $stmt->error;
-            }
+            } 
 
-            // Close the statement and connection
-            $stmt->close();
-        }
+        // Close the statement and connection
+        $stmt->close();
+    }
 
-        $conn->close();
-        ?>
-    </section>
+    $conn->close();
+    ?>
+</section>
 
     <section class="about">
         <h1 class="name">Hey, we are <span class="colored-name">developers!</span></h1>
