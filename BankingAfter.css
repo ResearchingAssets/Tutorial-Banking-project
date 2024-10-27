@@ -30,7 +30,6 @@
     height: 100dvh;
     color: var(--fg-color);
   }
-  
   .body-container{
     background-color: var(--bg-color);
     color: var(--fg-color);
