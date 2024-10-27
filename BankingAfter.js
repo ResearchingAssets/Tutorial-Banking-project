@@ -84,6 +84,11 @@ function modeChange() {
           });
       });
   });
-
 });
+function ChangeToTransactions(){
+    alert("You will be redirected soon.");
+    setTimeout(function(){
+        window.location.href = 'Transactions.php';
+    }, 2500); 
+}
   
