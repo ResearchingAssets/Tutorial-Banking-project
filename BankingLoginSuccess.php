@@ -114,7 +114,7 @@ if (isset($_SESSION['loggedin_username'])) {
         </section>
         <section class="options">
             <div class="options-grid">
-        <button class="grid-item"><span class="text">Transactions</span></button>
+        <button class="grid-item" onclick="ChangeToTransactions()"><span class="text">Transactions</span></button>
         <button class="grid-item"><span class="text">QR Code Scanner</span></button>
         <button class="grid-item"><span class="text">Transaction History</span></button>
         <button class="grid-item"><span class="text">Mini statement</span></button>
