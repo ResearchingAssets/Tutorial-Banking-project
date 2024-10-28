@@ -119,9 +119,10 @@
 
         // Process transaction if form is submitted
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Get the amount and password from the form
+            // Get the amount, transaction type, and password from the form
             $amountOfMoney = $_POST['AmountOfMoney'] ?? 0; 
             $password = $_POST['password'] ?? ''; 
+            $transactionType = $_POST['transactionType'] ?? ''; // Assign transaction type here
         
             // Step 1: Verify the password
             $stmt = $conn->prepare("SELECT Password FROM banking WHERE Username = ?");
@@ -131,9 +132,9 @@
         
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
-                
+        
                 if ($row['Password'] === $password) {
-                    // Step 2: Fetch the current balance
+                    // Fetch the current balance
                     $stmt = $conn->prepare("SELECT Balance FROM bankbalance WHERE Username = ?");
                     $stmt->bind_param("s", $username);
                     $stmt->execute();
@@ -143,40 +144,43 @@
                         $row = $result->fetch_assoc();
                         $currentBalance = $row['Balance'];
         
-                        // Step 3: Check if the transaction is valid
-                        if ($_POST['transactionType'] === 'withdraw') {
-                            // Check if the user has enough balance
+                        if ($transactionType === 'withdraw') {
+                            // Withdraw logic
                             if ($amountOfMoney > $currentBalance) {
                                 echo "<script>alert('Transaction failed due to insufficient funds.');</script>";
                             } else {
-                                // Update the balance after withdrawal
                                 $newBalance = $currentBalance - $amountOfMoney;
                                 $stmt = $conn->prepare("UPDATE bankbalance SET Balance = ? WHERE Username = ?");
                                 $stmt->bind_param("is", $newBalance, $username);
                                 $stmt->execute();
                                 echo "<script>alert('Withdrawal successful. Your new balance is: " . htmlspecialchars($newBalance) . "');</script>";
+                                $stmt = $conn->prepare("INSERT INTO transactions (Username, TransactionType, AmountOfMoney, BalanceAfter) VALUES (?, ?, ?, ?)");
+                                $stmt->bind_param("ssdi", $username, $transactionType, $amountOfMoney, $newBalance);
+                                $stmt->execute(); 
                             }
-                        } elseif ($_POST['transactionType'] === 'deposit') {
-                            // Calculate new balance after deposit
+                        } elseif ($transactionType === 'deposit') {
+                            // Deposit logic
                             $newBalance = $currentBalance + $amountOfMoney;
         
-                            // Check if the new balance exceeds the maximum limit
                             if ($newBalance > $maxBalance) {
                                 echo "<script>alert('Transaction failed. Maximum balance limit of " . number_format($maxBalance) . " exceeded.');</script>";
                             } else {
-                                // Update the balance after deposit
                                 $stmt = $conn->prepare("UPDATE bankbalance SET Balance = ? WHERE Username = ?");
                                 $stmt->bind_param("is", $newBalance, $username);
                                 $stmt->execute();
-                                echo "<script>alert('Deposit successful. Your new balance is: " . htmlspecialchars($newBalance) . "');</script>"; 
+                                echo "<script>alert('Deposit successful. Your new balance is: " . htmlspecialchars($newBalance) . "');</script>";
+                                $stmt = $conn->prepare("INSERT INTO transactions (Username, TransactionType, AmountOfMoney, BalanceAfter) VALUES (?, ?, ?, ?)");
+                                $stmt->bind_param("ssdi", $username, $transactionType, $amountOfMoney, $newBalance);
+                                $stmt->execute(); 
                             }
                         }
         
+                        // Redirect logic
                         echo "<script>
-                        setTimeout(function() {
-                            window.location.href = '" . htmlspecialchars($_SERVER['PHP_SELF']) . "';
-                        }, 1000); // Redirect after 1000 milliseconds (1 seconds)
-                    </script>";
+                            setTimeout(function() {
+                                window.location.href = '" . htmlspecialchars($_SERVER['PHP_SELF']) . "';
+                            }, 1000);
+                        </script>";
                     } else {
                         echo "<script>alert('No balance information found.');</script>";
                     }
