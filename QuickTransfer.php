@@ -167,8 +167,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['transfer-submit'])) {
                 $transactionType = "Quick Transfer";
 
                 $transactionDate = date('Y-m-d H:i:s'); // Current date and time
-                $stmt = $conn->prepare("INSERT INTO transactions (Username, ReceiverUsername, TransactionType, ReceiverBalanceAfter, AmountOfMoney, BalanceAfter, TransactionDate) VALUES (?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("sssdds", $currentUser, $receiverUsername, $transactionType, $newReceiverBalance, $transferAmount, $newSenderBalance, $transactionDate);
+                $stmt = $conn->prepare("INSERT INTO transactions (Username, ReceiverUsername, TransactionType, AmountOfMoney, BalanceAfter, TransactionDate) VALUES (?, ?, ?, ?, ?, ?)");
+
+                $stmt->bind_param("ssssds", $currentUser, $receiverUsername, $transactionType, $transferAmount, $newSenderBalance, $transactionDate);                
                 // Execute the insert
                 $stmt->execute();
                 $stmt->close();
