@@ -1,0 +1,7 @@
+ID
+Username
+TransactionType : deposit, withdrawal, Quick Transfer
+AmountOfMoney
+ReceiverUsername
+BalanceAfter
+TransactionDate
